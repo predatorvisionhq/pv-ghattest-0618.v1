@@ -1,0 +1,21 @@
+name: Owned attestation fixture
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+  attestations: write
+
+jobs:
+  attest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create benign artifact
+        run: printf %s "owned benign attestation fixture" > artifact.txt
+      - name: Attest benign artifact
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: artifact.txt
